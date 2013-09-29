@@ -36,7 +36,6 @@
 #include "springlobbyapp.h"
 #include "mainwindow.h"
 #include "settings.h"
-#include "ui.h"
 #include "introguide.h"
 #include "server.h"
 #include "utils/debug.h"
@@ -47,7 +46,6 @@
 #include "hosting/mainsingleplayertab.h"
 #include "battlelist/battlelisttab.h"
 #include "options/mainoptionstab.h"
-#include <lslunitsync/unitsync.h>
 #include "uiutils.h"
 #include "utils/misc.h"
 #include "chatpanel.h"
@@ -587,7 +585,7 @@ void MainWindow::OnMenuVersion( wxCommandEvent& /*unused*/ )
 
 void MainWindow::OnUnitSyncReload( wxCommandEvent& /*unused*/ )
 {
-	LSL::usync().AddReloadEvent();
+	LSL::usync().ReloadUnitSyncLib();
 	GlobalEvent::Send(GlobalEvent::OnUnitsyncReloaded);
 }
 

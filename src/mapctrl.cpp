@@ -11,7 +11,6 @@
 
 #include <lslutils/conversion.h>
 #include <lslutils/misc.h>
-#include <lslunitsync/unitsync.h>
 #include <lslunitsync/image.h>
 #include <lslunitsync/data.h>
 
@@ -486,10 +485,10 @@ void MapCtrl::FreeMinimap()
 
 void MapCtrl::UpdateMinimap()
 {
-	        assert(wxThread::IsMain());
-    int w, h;
+	assert(wxThread::IsMain());
     _SetCursor();
     if ( m_battle == 0 ) return;
+    int w, h;
     GetClientSize( &w, &h );
     if ( m_battle )  //needs to be looked into, crahses with replaytab (koshi)
     {

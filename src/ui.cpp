@@ -39,7 +39,6 @@
 #include "hosting/battleroomtab.h"
 #include "hosting/mainjoinbattletab.h"
 #include "hosting/mainsingleplayertab.h"
-#include "battle.h"
 #include "mainchattab.h"
 #include "crashreport.h"
 #include "maindownloadtab.h"
@@ -57,6 +56,7 @@
 #include "sound/alsound.h"
 #include <lslutils/globalsmanager.h>
 #include "utils/misc.h"
+#include "textentrydialog.h"
 
 static const unsigned int s_reconnect_delay_ms = 6000;
 
@@ -77,6 +77,7 @@ Ui::Ui() :
 		m_upd_counter_torrent(0),
 		m_first_update_trigger(true),
 		m_recconecting_wait(false),
+		m_disable_autoconnect(false),
 		m_battle_info_updatedSink( this, &BattleEvents::GetBattleEventSender( ( BattleEvents::BattleInfoUpdate ) ) )
 {
 	m_main_win = new MainWindow( );
@@ -89,6 +90,7 @@ Ui::Ui() :
 
 Ui::~Ui()
 {
+	m_disable_autoconnect = true;
     Disconnect();
     delete m_serv;
 }
@@ -155,14 +157,15 @@ void Ui::Connect()
 	wxString server_name = sett().GetDefaultServer();
 	wxString nick = sett().GetServerAccountNick( server_name );
 	bool autoconnect = sett().GetAutoConnect();
-	if ( !autoconnect || server_name.IsEmpty() || nick.IsEmpty() )
-        ShowConnectWindow();
-    else
-    {
-        m_con_win = 0;
-        wxString pass = sett().GetServerAccountPass( server_name );
-        DoConnect( server_name, nick, pass);
-    }
+	if ( !autoconnect || server_name.IsEmpty() || nick.IsEmpty() ) {
+		ShowConnectWindow();
+		return;
+	}
+	if (m_disable_autoconnect)
+		return;
+	m_con_win = 0;
+	wxString pass = sett().GetServerAccountPass( server_name );
+	DoConnect( server_name, nick, pass);
 }
 
 
@@ -331,12 +334,13 @@ bool Ui::IsSpringRunning() const
 //! @brief Quits the entire application
 void Ui::Quit()
 {
+	m_disable_autoconnect = true;
     Disconnect();
     if ( m_con_win != 0 )
         m_con_win->Close();
 }
 
-void Ui::Download( const wxString& category, const wxString& name, const wxString& hash )
+void Ui::Download( const wxString& category, const wxString& name, const wxString& /*hash */)
 {
 	const std::string scat = STD_STRING(category);
 	const std::string sname = STD_STRING(name);
@@ -371,14 +375,16 @@ bool Ui::AskPassword( const wxString& heading, const wxString& message, wxString
     return ( res == wxID_OK );
 }
 
-
-bool Ui::AskText( const wxString& heading, const wxString& question, wxString& answer, long style )
+bool Ui::AskText( const wxString& heading, const wxString& question, wxString& answer, bool multiline )
 {
-    wxTextEntryDialog name_dlg( &mw(), question, heading, answer, style );
-    int res = name_dlg.ShowModal();
-    answer = name_dlg.GetValue();
-
-    return ( res == wxID_OK );
+	long style = wxOK | wxCANCEL | wxCENTRE;
+	if (multiline) {
+		style |= wxTE_MULTILINE;
+	}
+	TextEntryDialog name_dlg( &mw(), question, heading, answer, multiline );
+	int res = name_dlg.ShowModal();
+	answer = name_dlg.GetValue();
+	return ( res == wxID_OK );
 }
 
 
@@ -583,7 +589,7 @@ bool Ui::IsSpringCompatible(const wxString& engine, const wxString& version)
         {
           wxLogMessage(_T("server enforce usage of version: %s, switching to profile: %s"), neededversion.c_str(), pair.first.c_str() );
           sett().SetUsedSpringIndex( pair.first );
-		  LSL::usync().AddReloadEvent();
+		  LSL::usync().ReloadUnitSyncLib();
         }
         return true;
       }
@@ -638,8 +644,7 @@ void Ui::OnDisconnected( Server& server, bool wasonline )
 
         server.uidata.panel->SetServer( 0 );
     }
-	if ( !wasonline ) // couldn't even estabilish a socket, prompt the user to switch to another server
-	{
+	if ( (!m_disable_autoconnect) && (!wasonline)) {// couldn't even estabilish a socket, prompt the user to switch to another server
 		ConnectionFailurePrompt();
 	}
 }
@@ -1406,6 +1411,7 @@ void Ui::CheckForUpdates()
 
 void Ui::OnQuit(wxCommandEvent& /*data*/)
 {
+	m_disable_autoconnect = true;
 	Disconnect();
 	delete m_serv;
 	m_serv = NULL;

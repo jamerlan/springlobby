@@ -38,8 +38,6 @@
 #include "crashreport.h"
 #include "utils/controls.h"
 #include "utils/platform.h"
-#include "ui.h"
-#include <lslunitsync/unitsync.h>
 #include "channel/channel.h"
 #include "utils/customdialogs.h"
 #include "springsettings/se_utils.h"
@@ -143,9 +141,6 @@ bool SpringLobbyApp::OnInit()
 	if ( !wxDirExists( GetConfigfileDir() ) )
 		wxMkdir( GetConfigfileDir() );
 
-#ifdef __WXMSW__
-	sett().SetSearchSpringOnlyInSLPath( sett().GetSearchSpringOnlyInSLPath() );
-#endif
 	sett().SetSpringBinary( sett().GetCurrentUsedSpringIndex(), sett().GetCurrentUsedSpringBinary() );
 	sett().SetUnitSync( sett().GetCurrentUsedSpringIndex(), sett().GetCurrentUsedUnitSync() );
 

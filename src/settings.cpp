@@ -38,7 +38,6 @@
 #include "playback/playbackfiltervalues.h"
 #include <lslutils/globalsmanager.h>
 #include <lslunitsync/c_api.h>
-#include <lslunitsync/unitsync.h>
 #include "customlistctrl.h"
 #include "springsettings/presets.h"
 #include "helper/sortutil.h"
@@ -2639,11 +2638,6 @@ wxString Settings::GetUikeys( const wxString& index )
 }
 
 //END OF Hotkeys stuff (for springsettings)
-
-bool Settings::IgnoreOfferfile()
-{
-	return m_config->Read( _T("/IgnoreOfferfile"), 0l);
-}
 
 bool Settings::IsSelfUpdateDisabled()
 {

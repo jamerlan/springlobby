@@ -23,12 +23,13 @@
 #include "lib/src/FileSystem/FileSystem.h"
 #include "../utils/uievents.h"
 #include "../utils/conversion.h"
-#include "../ui.h"
 #include "../utils/globalevents.h"
 #include "../mainwindow.h"
 #include "downloadsobserver.h"
+#include "../utils/debug.h"
 #include <list>
 
+#include <wx/log.h>
 #include <lslunitsync/unitsync.h>
 #include <lslutils/thread.h>
 #include <settings.h>
@@ -51,7 +52,7 @@ public:
             m_loader->freeResult( m_item );
 
 		UiEvents::ScopedStatusMessage msgcomplete(d, 0);
-		LSL::usync().AddReloadEvent();
+		LSL::usync().ReloadUnitSyncLib();
 		GlobalEvent::Send(GlobalEvent::OnUnitsyncReloaded);
 
         }

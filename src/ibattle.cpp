@@ -1,5 +1,19 @@
 /* Copyright (C) 2007 The SpringLobby Team. All rights reserved. */
 
+
+/**
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+DO NOT CHANGE THIS FILE!
+
+this file is deprecated and will be replaced with
+
+lsl/battle/ibattle.cpp
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+**/
+
+
 #include <wx/tokenzr.h>
 #include <wx/image.h>
 #include <sstream>
@@ -13,7 +27,6 @@
 #include "settings.h"
 #include "ui.h" //only required for preset stuff
 #include "spring.h"
-#include <lslunitsync/c_api.h>
 #include <lslutils/conversion.h>
 #include "springlobbyapp.h"
 

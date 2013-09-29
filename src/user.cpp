@@ -1,4 +1,17 @@
 /* Copyright (C) 2007 The SpringLobby Team. All rights reserved. */
+
+/**
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+DO NOT CHANGE THIS FILE!
+
+this file is deprecated and will be replaced with
+
+lsl/user/user.cpp
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+**/
+
 //
 // Class: User
 //
@@ -6,7 +19,6 @@
 #include "user.h"
 #include "battle.h"
 #include "server.h"
-//#include "utils.h"
 #include "chatpanel.h"
 #include "iconimagelist.h"
 

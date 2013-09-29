@@ -1,5 +1,18 @@
 /* Copyright (C) 2007-2011 The SpringLobby Team. All rights reserved. */
 
+/**
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+DO NOT CHANGE THIS FILE!
+
+this file is deprecated and will be replaced with
+
+lsl/networking/tasserver.cpp
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+**/
+
+
 
 #include <wx/string.h>
 #include <wx/regex.h>
@@ -25,7 +38,6 @@
 #include "utils/conversion.h"
 #include "utils/platform.h"
 #include "updater/updatehelper.h"
-#include "battle.h"
 #include "serverevents.h"
 #include "socket.h"
 #include "channel/channel.h"
@@ -335,13 +347,14 @@ void TASServer::Disconnect()
     {
         return;
     }
-    SendCmd( _T("EXIT") ); // EXIT command for new protocol compatibility
+	m_connected = false;
+	SendCmd( _T("EXIT") ); // EXIT command for new protocol compatibility
 	m_sock->Disconnect();
 }
 
 bool TASServer::IsConnected()
 {
-	return (m_sock->State() == SS_Open);
+	return (m_sock->State() == SS_Open) && (m_connected);
 }
 
 

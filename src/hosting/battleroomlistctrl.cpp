@@ -15,11 +15,8 @@
 
 #include "battleroomlistctrl.h"
 #include "iconimagelist.h"
-#include <lslunitsync/unitsync.h>
 #include "battle.h"
-#include "ibattle.h"
 #include "uiutils.h"
-#include "ui.h"
 #include "user.h"
 #include "server.h"
 #include "utils/debug.h"

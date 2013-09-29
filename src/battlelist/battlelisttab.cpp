@@ -18,7 +18,6 @@
 #include "aui/auimanager.h"
 #include "battlelisttab.h"
 #include "battlelistctrl.h"
-#include "battle.h"
 #include "ui.h"
 #include "chatpanel.h"
 #include "utils/debug.h"
@@ -29,7 +28,6 @@
 #include "hosting/mainjoinbattletab.h"
 #include "server.h"
 #include "settings.h"
-#include <lslunitsync/unitsync.h>
 #include "mapctrl.h"
 #include "nicklistctrl.h"
 #include "mainwindow.h"
